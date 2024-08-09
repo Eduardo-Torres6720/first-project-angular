@@ -1,35 +1,9 @@
 <mat-card-content class="card-container">
   <mat-card class="card-login">
     <mat-card-title class="title">{{ title }}</mat-card-title>
-    <form [formGroup]="form">
-      <mat-card-content class="container-login">
-        <mat-form-field appearence="fill" class="form-field-full">
-          <mat-label>Email</mat-label>
-          <input
-            type="email"
-            matInput
-            formControlName="emailFormControl"
-            placeholder="Ex. tan@gmail.com"
-          />
-          @if(form.get('emailFormControl')?.hasError('required')) {
-          <mat-error>Email é <strong>obrigatório</strong></mat-error>
-          } @if (!form.get('emailFormControl')?.hasError('required') &&
-          form.get('emailFormControl')?.hasError('email')) {
-          <mat-error>Envie um email valido</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field appearence="outline" class="form-field-full">
-          <mat-label>Senha</mat-label>
-          <input type="password" matInput formControlName="senhaFormControl" />
-          @if (form.get('senhaFormControl')?.hasError('minlength') &&
-          !form.get('senhaFormControl')?.hasError('required')) {
-          <mat-error>Minimo 3 caracteres</mat-error>
-          } @if (form.get('senhaFormControl')?.hasError('required')) {
-          <mat-error>Senha é <strong>obrigatório</strong></mat-error>
-          }
-        </mat-form-field>
-      </mat-card-content>
-    </form>
-    <button mat-button (click)="submit()">{{ textButton }}</button>
+    <ng-content></ng-content>
+    <button mat-button [disabled]="disabled" (click)="submit()">
+      {{ textButton }}
+    </button>
   </mat-card>
 </mat-card-content>

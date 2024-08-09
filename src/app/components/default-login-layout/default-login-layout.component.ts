@@ -36,16 +36,10 @@ import { MatButtonModule } from '@angular/material/button';
 export class DefaultLoginLayoutComponent {
   @Input() title: string = '';
   @Input() textButton: string = '';
+  @Input() disabled: Boolean = false;
   @Output('submit') onSubmit = new EventEmitter();
 
   submit() {
     this.onSubmit.emit();
   }
-
-  fb = inject(FormBuilder);
-
-  form = this.fb.group({
-    emailFormControl: ['', [Validators.required, Validators.email]],
-    senhaFormControl: ['', [Validators.required, Validators.minLength(3)]],
-  });
 }

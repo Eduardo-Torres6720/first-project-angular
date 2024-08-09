@@ -11,12 +11,5 @@ mat-card-content.card-container {
     display: flex;
     flex-direction: column;
     gap: 7px;
-
-    mat-card-content {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      gap: 10px;
-    }
   }
 }

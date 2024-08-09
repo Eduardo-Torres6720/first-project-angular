@@ -1,22 +1,6 @@
-mat-card-content.card-container {
-  height: 100%;
+mat-card-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: 0;
-
-  .card-login {
-    width: 300px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-
-    mat-card-content {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      gap: 10px;
-    }
-  }
+  gap: 10px;
 }
