@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-register',
@@ -27,10 +28,13 @@ import {
     MatLabel,
     ReactiveFormsModule,
   ],
+  providers: [UsuarioService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  constructor(private loginService: UsuarioService) {}
+
   fb = inject(FormBuilder);
 
   form = this.fb.group({
@@ -42,15 +46,6 @@ export class RegisterComponent {
     ],
   });
 
-  // static equalsTo(otherPassword: string) {
-  //   const checkPasswordValidator = (formControl: FormControl) => {
-  //     if (otherPassword == null) {
-  //       throw new Error("É necessário informar um campo")
-  //     }
-  //     const field = (<FormGroup>)
-  //   }
-  // }
-
   checkPasswordValidator(input: FormControl) {
     if (!input.root || !(<FormGroup>input.root).controls) {
       return null;
@@ -61,7 +56,16 @@ export class RegisterComponent {
   }
 
   register() {
-    console.log(this.form.value.senhaFormControl);
-    console.log(this.form.value.repetSenhaFormControl);
+    const login = this.form.value.emailFormControl;
+    const password = this.form.value.senhaFormControl;
+
+    if (!login || !password) {
+      throw new Error('campo nulo');
+    }
+
+    this.loginService.register(login, password).subscribe({
+      next: () => console.log('sucesso!'),
+      error: () => console.log('erro ao cadastrar'),
+    });
   }
 }
