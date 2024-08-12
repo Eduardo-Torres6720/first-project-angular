@@ -2,6 +2,7 @@
   title="Registro"
   textButton="Registrar"
   (submit)="register()"
+  [disabled]="form.invalid"
 >
   <form [formGroup]="form">
     <mat-card-content class="container-login">

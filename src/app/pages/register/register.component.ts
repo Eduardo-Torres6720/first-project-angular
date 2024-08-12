@@ -42,17 +42,23 @@ export class RegisterComponent {
     senhaFormControl: ['', [Validators.required, Validators.minLength(3)]],
     repetSenhaFormControl: [
       '',
-      [Validators.required, this.checkPasswordValidator],
+      [
+        Validators.required,
+        RegisterComponent.validatorPassword('senhaFormControl'),
+      ],
     ],
   });
 
-  checkPasswordValidator(input: FormControl) {
-    if (!input.root || !(<FormGroup>input.root).controls) {
-      return null;
-    }
-    const password = (<FormGroup>input.root).get('senhaFormControl')!;
+  static validatorPassword(formControl: string) {
+    const checkPasswordValidator = (input: FormControl) => {
+      if (!input.root || !(<FormGroup>input.root).controls) {
+        return null;
+      }
+      const password = (<FormGroup>input.root).get(formControl)!;
 
-    return input.value == password.value ? null : { checkPassword: true };
+      return input.value == password.value ? null : { checkPassword: true };
+    };
+    return checkPasswordValidator;
   }
 
   register() {
@@ -63,9 +69,11 @@ export class RegisterComponent {
       throw new Error('campo nulo');
     }
 
-    this.loginService.register(login, password).subscribe({
-      next: () => console.log('sucesso!'),
-      error: () => console.log('erro ao cadastrar'),
-    });
+    if (this.form.value.repetSenhaFormControl?.toString() == password) {
+      this.loginService.register(login, password).subscribe({
+        next: () => console.log('sucesso!'),
+        error: () => console.log('erro ao cadastrar'),
+      });
+    }
   }
 }
