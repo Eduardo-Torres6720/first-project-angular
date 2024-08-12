@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { MatCardContent } from '@angular/material/card';
 import { UsuarioService } from '../../services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,10 @@ import { UsuarioService } from '../../services/usuario.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private loginService: UsuarioService) {}
+  constructor(
+    private loginService: UsuarioService,
+    private toastr: ToastrService
+  ) {}
 
   fb = inject(FormBuilder);
 
@@ -47,8 +51,14 @@ export class LoginComponent {
     }
 
     this.loginService.login(login, password).subscribe({
-      next: () => console.log('sucesso!'),
-      error: () => console.log('algo de errado não está certo'),
+      next: () => this.toastr.success('Login realizado com sucesso!'),
+      error: (e) => {
+        if (e.status == 400) {
+          this.toastr.error('Login ou senha incorreto(s)');
+        } else {
+          this.toastr.error('Erro inesperado, tente novamente mais tarde');
+        }
+      },
     });
   }
 }

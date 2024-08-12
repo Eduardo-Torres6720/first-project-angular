@@ -15,6 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +34,10 @@ import { UsuarioService } from '../../services/usuario.service';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  constructor(private loginService: UsuarioService) {}
+  constructor(
+    private loginService: UsuarioService,
+    private toastr: ToastrService
+  ) {}
 
   fb = inject(FormBuilder);
 
@@ -71,8 +75,15 @@ export class RegisterComponent {
 
     if (this.form.value.repetSenhaFormControl?.toString() == password) {
       this.loginService.register(login, password).subscribe({
-        next: () => console.log('sucesso!'),
-        error: () => console.log('erro ao cadastrar'),
+        next: () => this.toastr.success('Conta cadastrada com sucesso!'),
+        error: (e) => {
+          if (e.status == 400) {
+            this.toastr.error('Email já cadastrado, tente outro');
+            console.log(e);
+          } else {
+            this.toastr.error('Erro inesperado, tente novamente mais tarde');
+          }
+        },
       });
     }
   }
