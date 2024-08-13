@@ -7,6 +7,8 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { userAuthenticatedGuard } from './services/guards/user-authenticated.guard';
+import { userNotAuthenticatedGuard } from './services/guards/user-not-authenticated.guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,5 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideToastr(),
     provideAnimations(),
+    userAuthenticatedGuard,
+    userNotAuthenticatedGuard,
   ],
 };
