@@ -44,6 +44,10 @@ export class LoginComponent {
     senhaFormControl: ['', [Validators.required, Validators.minLength(3)]],
   });
 
+  navRoute() {
+    this.router.navigate(['register']);
+  }
+
   logar() {
     const login = this.form.value.emailFormControl;
     const password = this.form.value.senhaFormControl;

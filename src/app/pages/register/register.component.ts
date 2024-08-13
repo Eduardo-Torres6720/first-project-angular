@@ -67,6 +67,10 @@ export class RegisterComponent {
     return checkPasswordValidator;
   }
 
+  navRoute() {
+    this.router.navigate(['login']);
+  }
+
   register() {
     const login = this.form.value.emailFormControl;
     const password = this.form.value.senhaFormControl;

@@ -3,6 +3,8 @@
   textButton="Logar"
   (submit)="logar()"
   [disabled]="form.invalid"
+  buttonLink="Ainda não possue uma conta? Cadastre agora!"
+  (navRoute)="navRoute()"
 >
   <form [formGroup]="form">
     <mat-card-content class="container-login">

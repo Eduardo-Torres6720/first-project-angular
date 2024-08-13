@@ -4,6 +4,8 @@ mat-card-content.card-container {
   align-items: center;
   justify-content: center;
   padding: 0;
+  flex-direction: column;
+  gap: 8px;
 
   .card-login {
     width: 300px;

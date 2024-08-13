@@ -37,9 +37,15 @@ export class DefaultLoginLayoutComponent {
   @Input() title: string = '';
   @Input() textButton: string = '';
   @Input() disabled: Boolean = false;
+  @Input() buttonLink: string = '';
   @Output('submit') onSubmit = new EventEmitter();
+  @Output('navRoute') onNavRoute = new EventEmitter();
 
   submit() {
     this.onSubmit.emit();
+  }
+
+  navRoute() {
+    this.onNavRoute.emit();
   }
 }

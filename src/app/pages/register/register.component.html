@@ -3,6 +3,8 @@
   textButton="Registrar"
   (submit)="register()"
   [disabled]="form.invalid"
+  buttonLink="Já possue uma conta? Faça login agora!"
+  (navRoute)="navRoute()"
 >
   <form [formGroup]="form">
     <mat-card-content class="container-login">
