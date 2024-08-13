@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +37,8 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent {
   constructor(
     private loginService: UsuarioService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   fb = inject(FormBuilder);
@@ -75,7 +77,10 @@ export class RegisterComponent {
 
     if (this.form.value.repetSenhaFormControl?.toString() == password) {
       this.loginService.register(login, password).subscribe({
-        next: () => this.toastr.success('Conta cadastrada com sucesso!'),
+        next: () => {
+          this.toastr.success('Conta cadastrada com sucesso!');
+          this.router.navigate(['']);
+        },
         error: (e) => {
           if (e.status == 400) {
             this.toastr.error('Email já cadastrado, tente outro');

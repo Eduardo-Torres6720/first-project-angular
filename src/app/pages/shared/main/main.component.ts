@@ -4,7 +4,8 @@ import { MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-main',
@@ -19,4 +20,10 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
-export class MainComponent {}
+export class MainComponent {
+  constructor(private usuarioService: UsuarioService) {}
+
+  logOut() {
+    this.usuarioService.logOut();
+  }
+}

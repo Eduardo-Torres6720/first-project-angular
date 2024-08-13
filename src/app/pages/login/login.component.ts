@@ -11,6 +11,7 @@ import {
 import { MatCardContent } from '@angular/material/card';
 import { UsuarioService } from '../../services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   constructor(
     private loginService: UsuarioService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   fb = inject(FormBuilder);
@@ -51,7 +53,10 @@ export class LoginComponent {
     }
 
     this.loginService.login(login, password).subscribe({
-      next: () => this.toastr.success('Login realizado com sucesso!'),
+      next: () => {
+        this.toastr.success('Login realizado com sucesso!');
+        this.router.navigate(['']);
+      },
       error: (e) => {
         if (e.status == 400) {
           this.toastr.error('Login ou senha incorreto(s)');
