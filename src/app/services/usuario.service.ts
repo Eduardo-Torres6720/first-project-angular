@@ -21,6 +21,7 @@ export class UsuarioService {
       .pipe(
         tap((value) => {
           sessionStorage.setItem('auth-token', value.token);
+          sessionStorage.setItem('userId', value.id);
         })
       );
   }
@@ -34,8 +35,17 @@ export class UsuarioService {
       .pipe(
         tap((value) => {
           sessionStorage.setItem('auth-token', value.token);
+          sessionStorage.setItem('userId', value.id);
         })
       );
+  }
+
+  getId() {
+    return sessionStorage.getItem('userId');
+  }
+
+  get getUserToken(): string | null {
+    return sessionStorage.getItem('auth-token');
   }
 
   get loggedIn(): boolean {
