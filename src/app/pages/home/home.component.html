@@ -1,3 +1,9 @@
-@for (task of tasks; track task.id) {
-<app-task [title]="task.title" [describe]="task.description"></app-task>
-}
+<div>
+  @for (task of tasks; track task.id) {
+  <app-task
+    [title]="task.title"
+    [describe]="task.description"
+    [completed]="task.completed"
+  ></app-task>
+  }
+</div>
