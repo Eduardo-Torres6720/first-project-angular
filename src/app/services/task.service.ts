@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioService } from './usuario.service';
 import { Observable } from 'rxjs';
+import { task } from '../types/task.type';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,20 @@ export class TaskService {
     private usuarioService: UsuarioService
   ) {}
 
-  getTasks(): Observable<any> {
+  getTasks(): Observable<task[]> {
     const userId: string = this.usuarioService.getId()!;
-    return this.httpClient.get(this.url + 'user/' + userId);
+    return this.httpClient.get<task[]>(this.url + 'user/' + userId);
+  }
+
+  addNewTask(title: string, description: string): Observable<task> {
+    const userId: string = this.usuarioService.getId()!;
+    console.log(userId);
+    return this.httpClient.post<task>(
+      this.url + 'user/' + userId + '/addTask',
+      {
+        title,
+        description,
+      }
+    );
   }
 }

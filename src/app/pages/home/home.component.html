@@ -1,4 +1,7 @@
-<div>
+<div class="tasks-container">
+  <button mat-raised-button (click)="openDialogAddTask('0ms', '0ms')">
+    <mat-icon fontIcon="add"></mat-icon>
+  </button>
   @for (task of tasks; track task.id) {
   <app-task
     [title]="task.title"

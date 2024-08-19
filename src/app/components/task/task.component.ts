@@ -82,7 +82,7 @@ export class TaskComponent {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogTaskDetails extends TaskComponent {
+export class DialogTaskDetails {
   readonly dialogRef = inject(MatDialogRef<DialogTaskDetails>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 }
