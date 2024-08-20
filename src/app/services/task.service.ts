@@ -31,4 +31,8 @@ export class TaskService {
       }
     );
   }
+
+  deleteTask(id: string) {
+    return this.httpClient.delete(this.url + 'delete/' + id);
+  }
 }

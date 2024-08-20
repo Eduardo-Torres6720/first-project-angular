@@ -7,6 +7,7 @@
     [title]="task.title"
     [describe]="task.description"
     [completed]="task.completed"
+    (deleteTask)="deleteTask(task.id)"
   ></app-task>
   }
 </div>

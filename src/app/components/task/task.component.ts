@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
   Input,
+  Output,
 } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardActions,
@@ -21,6 +23,9 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { TaskService } from '../../services/task.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface DialogData {
   title: string;
@@ -38,6 +43,8 @@ export interface DialogData {
     MatCardTitle,
     MatCardActions,
     MatButton,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.scss',
@@ -47,11 +54,13 @@ export class TaskComponent {
   @Input() title: string = '';
   @Input() describe: string = '';
   @Input() completed: boolean = false;
+  @Output('deleteTask') onDeleteTask = new EventEmitter();
 
   readonly dialog = inject(MatDialog);
 
-  titleTaskSelected: string = '';
-  describeTaskSelected: string = '';
+  deleteTask() {
+    this.onDeleteTask.emit();
+  }
 
   openDialog(
     enterAnimationDuration: string,

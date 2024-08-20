@@ -25,6 +25,7 @@ import {
   MatInput,
   MatLabel,
 } from '@angular/material/input';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -37,13 +38,32 @@ export class HomeComponent {
   readonly dialog = inject(MatDialog);
 
   tasks: task[] = [];
-  constructor(private tasksService: TaskService) {
+  deletedTasks: task[] = [];
+  constructor(private tasksService: TaskService, private toast: ToastrService) {
     this.tasksService.getTasks().subscribe({
       next: (e) => {
         this.tasks = e;
       },
       error: (e) => {
         console.log(e.message);
+      },
+    });
+  }
+
+  deleteTask(id: string) {
+    this.tasksService.deleteTask(id).subscribe({
+      next: () => {
+        const deletedTask = this.tasks.filter((task) => {
+          return task.id === id;
+        });
+        const index = this.tasks.indexOf(deletedTask[0]);
+        this.deletedTasks.push(deletedTask[0]);
+        this.tasks.splice(index, 1);
+      },
+      error: () => {
+        this.toast.error(
+          'Erro ao deletar a tarefa, tente novamente mais tarde'
+        );
       },
     });
   }
@@ -58,7 +78,7 @@ export class HomeComponent {
       exitAnimationDuration,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
+      if (result !== undefined && result !== '') {
         this.tasks.push(result);
       }
     });
