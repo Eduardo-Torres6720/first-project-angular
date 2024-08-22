@@ -53,11 +53,14 @@ export class HomeComponent {
   deleteTask(id: string) {
     this.tasksService.deleteTask(id).subscribe({
       next: () => {
-        const deletedTask = this.tasks.filter((task) => {
-          return task.id === id;
-        });
-        const index = this.tasks.indexOf(deletedTask[0]);
-        this.deletedTasks.push(deletedTask[0]);
+        this.deletedTasks.push(
+          this.tasks.find((task) => {
+            return task.id === id;
+          })!
+        );
+        const index = this.tasks.indexOf(
+          this.deletedTasks[this.deletedTasks.length - 1]
+        );
         this.tasks.splice(index, 1);
       },
       error: () => {
