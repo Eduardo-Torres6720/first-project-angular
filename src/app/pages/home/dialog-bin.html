@@ -1,0 +1,15 @@
+<h2 matDialogTitle>Lixeira</h2>
+<mat-dialog-content>
+  @for (task of data.tasks; track task.id) {
+  <app-task
+    [title]="task.title"
+    [describe]="task.description"
+    [completed]="task.completed"
+  >
+  </app-task>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button>Fechar</button>
+  <button mat-button>Resgatar</button>
+</mat-dialog-actions>

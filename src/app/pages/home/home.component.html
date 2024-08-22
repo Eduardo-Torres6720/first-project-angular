@@ -1,7 +1,13 @@
 <div class="tasks-container">
-  <button mat-raised-button (click)="openDialogAddTask('0ms', '0ms')">
-    <mat-icon fontIcon="add"></mat-icon>
-  </button>
+  <div class="buttons-container">
+    <button mat-raised-button (click)="openDialogAddTask('0ms', '0ms')">
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
+    <button mat-raised-button (click)="openDialogBin('0ms', '0ms')">
+      <mat-icon fontIcon="restore_from_trash"></mat-icon>
+    </button>
+  </div>
+
   @for (task of tasks; track task.id) {
   <app-task
     [title]="task.title"

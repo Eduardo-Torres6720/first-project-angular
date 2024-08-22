@@ -11,6 +11,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
   MatDialogContent,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {
   FormBuilder,
@@ -26,6 +27,15 @@ import {
   MatLabel,
 } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
+
+export interface DialogData {
+  tasks: {
+    title: string;
+    description: string;
+    completed: boolean;
+    id: string;
+  }[];
+}
 
 @Component({
   selector: 'app-home',
@@ -86,6 +96,16 @@ export class HomeComponent {
       }
     });
   }
+
+  openDialogBin(enterAnimationDuration: string, exitAnimationDuration: string) {
+    const dialogRef = this.dialog.open(DialogBin, {
+      width: '500px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { tasks: this.deletedTasks },
+    });
+    dialogRef.afterClosed();
+  }
 }
 
 @Component({
@@ -134,5 +154,28 @@ export class DialogAddTask {
         },
       });
     }
+  }
+}
+
+@Component({
+  selector: 'dialog-bin',
+  templateUrl: 'dialog-bin.html',
+  imports: [
+    MatDialogActions,
+    MatDialogTitle,
+    MatDialogClose,
+    MatDialogContent,
+    MatButtonModule,
+    TaskComponent,
+  ],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DialogBin {
+  readonly dialogRef = inject(MatDialogRef<DialogBin>);
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+
+  constructor() {
+    console.log(this.data);
   }
 }

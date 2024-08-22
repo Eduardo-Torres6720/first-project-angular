@@ -3,19 +3,24 @@
   flex-direction: column;
   gap: 10px;
   margin-top: 14px;
-  button {
-    border-radius: 100%;
-    padding: 0;
-    height: 64px;
-    width: 64px;
+  max-width: 750px;
+  margin-inline: auto;
+  .buttons-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    mat-icon {
-      display: inline-block;
-      transform: scale(3);
+    button {
+      border-radius: 100%;
+      padding: 0;
+      height: 64px;
+      width: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: auto;
+      mat-icon {
+        display: inline-block;
+        transform: scale(3);
+        margin: auto;
+      }
     }
   }
 }
