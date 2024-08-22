@@ -22,7 +22,6 @@ export class TaskService {
 
   addNewTask(title: string, description: string): Observable<task> {
     const userId: string = this.usuarioService.getId()!;
-    console.log(userId);
     return this.httpClient.post<task>(
       this.url + 'user/' + userId + '/addTask',
       {
@@ -34,5 +33,10 @@ export class TaskService {
 
   deleteTask(id: string) {
     return this.httpClient.delete(this.url + 'delete/' + id);
+  }
+
+  getDeletedTasks(): Observable<task[]> {
+    const userId: string = this.usuarioService.getId()!;
+    return this.httpClient.get<task[]>(this.url + 'deletedTask/user/' + userId);
   }
 }

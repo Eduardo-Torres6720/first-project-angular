@@ -1,15 +1,18 @@
 <h2 matDialogTitle>Lixeira</h2>
 <mat-dialog-content>
   @for (task of data.tasks; track task.id) {
-  <app-task
-    [title]="task.title"
-    [describe]="task.description"
-    [completed]="task.completed"
-  >
-  </app-task>
+  <div class="deletedTasks-container">
+    <app-task
+      [title]="task.title"
+      [describe]="task.description"
+      [completed]="task.completed"
+    >
+      <mat-checkbox (change)="updateRescueTasks(task)"></mat-checkbox>
+    </app-task>
+  </div>
   }
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button>Fechar</button>
-  <button mat-button>Resgatar</button>
+  <button mat-button mat-dialog-close>Fechar</button>
+  <button mat-button (click)="tasksRescue()">Resgatar</button>
 </mat-dialog-actions>

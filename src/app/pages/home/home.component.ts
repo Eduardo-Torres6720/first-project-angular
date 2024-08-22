@@ -27,6 +27,7 @@ import {
   MatLabel,
 } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 export interface DialogData {
   tasks: {
@@ -98,13 +99,25 @@ export class HomeComponent {
   }
 
   openDialogBin(enterAnimationDuration: string, exitAnimationDuration: string) {
-    const dialogRef = this.dialog.open(DialogBin, {
-      width: '500px',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: { tasks: this.deletedTasks },
+    this.tasksService.getDeletedTasks().subscribe({
+      next: (e) => {
+        this.deletedTasks = e;
+        const dialogRef = this.dialog.open(DialogBin, {
+          width: '500px',
+          enterAnimationDuration,
+          exitAnimationDuration,
+          data: { tasks: this.deletedTasks },
+        });
+        dialogRef.afterClosed().subscribe((result: task[]) => {
+          if (result != undefined && result.length > 0) {
+            console.log(result);
+          }
+        });
+      },
+      error: (e) => {
+        this.toast.error('Falha ao retornar as tarefas deletadas');
+      },
     });
-    dialogRef.afterClosed();
   }
 }
 
@@ -167,7 +180,9 @@ export class DialogAddTask {
     MatDialogContent,
     MatButtonModule,
     TaskComponent,
+    MatCheckbox,
   ],
+  styleUrl: 'home.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -175,7 +190,9 @@ export class DialogBin {
   readonly dialogRef = inject(MatDialogRef<DialogBin>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
-  constructor() {
-    console.log(this.data);
-  }
+  rescueTasks: task[] = [];
+
+  updateRescueTasks(task: task) {}
+
+  tasksRescue() {}
 }
