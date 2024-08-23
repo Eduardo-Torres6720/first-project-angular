@@ -111,6 +111,9 @@ export class HomeComponent {
         dialogRef.afterClosed().subscribe((result: task[]) => {
           if (result != undefined && result.length > 0) {
             console.log(result);
+            result.forEach((task) => {
+              this.tasks.push(task);
+            });
           }
         });
       },
@@ -190,9 +193,34 @@ export class DialogBin {
   readonly dialogRef = inject(MatDialogRef<DialogBin>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
+  constructor(private taskService: TaskService, private toast: ToastrService) {}
+
   rescueTasks: task[] = [];
 
-  updateRescueTasks(task: task) {}
+  updateRescueTasks(task: task) {
+    const index = this.rescueTasks.indexOf(task);
+    if (index < 0) {
+      this.rescueTasks.push(task);
+    } else {
+      this.rescueTasks.splice(index, 1);
+    }
+  }
 
-  tasksRescue() {}
+  tasksRescue() {
+    const idTasks: { id: string }[] = [];
+    this.rescueTasks.forEach((task) => {
+      idTasks.push({ id: task.id });
+    });
+    this.taskService.retrieveTasks(idTasks).subscribe({
+      next: () => {
+        this.dialogRef.close(this.rescueTasks);
+        this.toast.success('Tarefas recuperadas');
+      },
+      error: () => {
+        this.toast.error(
+          'Erro ao recuperar tarefas, tente novamente mais tarde'
+        );
+      },
+    });
+  }
 }

@@ -39,4 +39,8 @@ export class TaskService {
     const userId: string = this.usuarioService.getId()!;
     return this.httpClient.get<task[]>(this.url + 'deletedTask/user/' + userId);
   }
+
+  retrieveTasks(idTasks: { id: string }[]) {
+    return this.httpClient.put(this.url + 'activeTask', idTasks);
+  }
 }
