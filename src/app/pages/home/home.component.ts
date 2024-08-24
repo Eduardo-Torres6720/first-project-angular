@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { TaskComponent } from '../../components/task/task.component';
 import { TaskService } from '../../services/task.service';
 import { task } from '../../types/task.type';
@@ -61,17 +66,11 @@ export class HomeComponent {
     });
   }
 
-  deleteTask(id: string) {
-    this.tasksService.deleteTask(id).subscribe({
+  deleteTask(task: task) {
+    this.tasksService.deleteTask(task.id).subscribe({
       next: () => {
-        this.deletedTasks.push(
-          this.tasks.find((task) => {
-            return task.id === id;
-          })!
-        );
-        const index = this.tasks.indexOf(
-          this.deletedTasks[this.deletedTasks.length - 1]
-        );
+        this.deletedTasks.push(task);
+        const index = this.tasks.indexOf(task);
         this.tasks.splice(index, 1);
       },
       error: () => {
@@ -110,7 +109,6 @@ export class HomeComponent {
         });
         dialogRef.afterClosed().subscribe((result: task[]) => {
           if (result != undefined && result.length > 0) {
-            console.log(result);
             result.forEach((task) => {
               this.tasks.push(task);
             });
@@ -148,7 +146,7 @@ export class HomeComponent {
 export class DialogAddTask {
   readonly dialogRef = inject(MatDialogRef<DialogAddTask>);
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService, private toast: ToastrService) {}
 
   fb = inject(FormBuilder);
 
@@ -164,6 +162,7 @@ export class DialogAddTask {
       this.taskService.addNewTask(title, describe).subscribe({
         next: (e) => {
           this.dialogRef.close(e);
+          this.toast.success('tarefa adicionada com sucesso');
         },
         error: (e) => {
           console.log(e.message);
@@ -219,6 +218,18 @@ export class DialogBin {
       error: () => {
         this.toast.error(
           'Erro ao recuperar tarefas, tente novamente mais tarde'
+        );
+      },
+    });
+  }
+
+  deleteTaskForever(task: task) {
+    const index = this.data.tasks.indexOf(task);
+    this.data.tasks.splice(index, 1);
+    this.taskService.deleteTask(task.id).subscribe({
+      error: () => {
+        this.toast.error(
+          'Erro ao excluir tarefa da lixeira, tente novamente mais tarde'
         );
       },
     });

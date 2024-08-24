@@ -6,6 +6,7 @@
       [title]="task.title"
       [describe]="task.description"
       [completed]="task.completed"
+      (deleteTask)="deleteTaskForever(task)"
     >
       <mat-checkbox (change)="updateRescueTasks(task)"></mat-checkbox>
     </app-task>
