@@ -40,6 +40,7 @@ export interface DialogData {
     description: string;
     completed: boolean;
     id: string;
+    active: boolean;
   }[];
 }
 

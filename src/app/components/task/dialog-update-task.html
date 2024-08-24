@@ -1,0 +1,32 @@
+<h2 matDialogTitle>Editar tarefa - {{data.title}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="formUpdateTask">
+    <mat-form-field>
+      <mat-label>Título</mat-label>
+      <input type="text" matInput formControlName="titleTask" maxlength="55" />
+      <mat-hint align="start">Máximo de caracteres</mat-hint>
+      <mat-hint align="end"
+        >{{formUpdateTask.get('titleTask')!.value!.length}} / 55</mat-hint
+      >
+      @if(formUpdateTask.get('titleTask')?.hasError('required')) {
+      <mat-error>Título é obrigatório</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <textarea
+        matInput
+        formControlName="describeTask"
+        maxlength="150"
+      ></textarea>
+      <mat-hint align="start">Máximo de caracteres</mat-hint>
+      <mat-hint align="end"
+        >{{formUpdateTask.get('describeTask')!.value!.length}} / 150</mat-hint
+      >
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Fechar</button>
+  <button mat-button (click)="updateTask()">Atualizar</button>
+</mat-dialog-actions>

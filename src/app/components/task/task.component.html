@@ -16,6 +16,14 @@
       >
         Mostrar mais
       </button>
+      @if (active) {
+      <button
+        mat-button
+        (click)="openDialogUpdateTask('0ms', '0ms', title, describe)"
+      >
+        Editar
+      </button>
+      }
     </mat-card-actions>
   </mat-card>
   <ng-content></ng-content>

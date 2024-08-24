@@ -13,5 +13,16 @@ div {
   mat-card {
     width: 100%;
     margin-left: 8px;
+
+    mat-card-actions {
+      display: flex;
+      gap: 8px;
+    }
   }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
