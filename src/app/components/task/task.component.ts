@@ -39,6 +39,7 @@ import {
   MatLabel,
 } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { task } from '../../types/task.type';
 
 export interface DialogData {
   title: string;
@@ -68,7 +69,9 @@ export class TaskComponent {
   @Input() describe: string = '';
   @Input() completed: boolean = false;
   @Input() active: boolean = true;
+  @Input() id: string = '';
   @Output('deleteTask') onDeleteTask = new EventEmitter();
+  @Output('openDialogUpdateTask') onOpenDialogUpdateTask = new EventEmitter();
 
   readonly dialog = inject(MatDialog);
 
@@ -97,15 +100,16 @@ export class TaskComponent {
 
   openDialogUpdateTask(
     enterAnimationDuration: string,
-    exitAnimationDuration: string,
-    title: string,
-    describe: string
+    exitAnimationDuration: string
   ) {
     const dialogRef = this.dialog.open(DialogUpdateTask, {
       width: '500px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: { title: title, describe: describe },
+      data: { title: this.title, describe: this.describe, id: this.id },
+    });
+    dialogRef.afterClosed().subscribe((result: task) => {
+      this.onOpenDialogUpdateTask.emit(result);
     });
   }
 }
@@ -149,8 +153,12 @@ export class DialogTaskDetails {
   standalone: true,
 })
 export class DialogUpdateTask {
-  readonly data = inject<{ title: string; describe: string }>(MAT_DIALOG_DATA);
+  readonly data = inject<{ title: string; describe: string; id: string }>(
+    MAT_DIALOG_DATA
+  );
   readonly dialogRef = inject(MatDialogRef<DialogUpdateTask>);
+
+  constructor(private taskService: TaskService) {}
 
   fb = inject(FormBuilder);
   formUpdateTask = this.fb.group({
@@ -161,5 +169,14 @@ export class DialogUpdateTask {
   updateTask() {
     const title = this.formUpdateTask.value.titleTask;
     const description = this.formUpdateTask.value.describeTask;
+    if (title != '') {
+      this.taskService
+        .updateTask(title!, description!, this.data.id)
+        .subscribe({
+          next: (e) => {
+            this.dialogRef.close(e);
+          },
+        });
+    }
   }
 }

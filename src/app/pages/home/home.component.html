@@ -15,6 +15,8 @@
     [completed]="task.completed"
     (deleteTask)="deleteTask(task)"
     [active]="task.active"
+    [id]="task.id"
+    (openDialogUpdateTask)="updateTask($event)"
   ></app-task>
   }
 </div>

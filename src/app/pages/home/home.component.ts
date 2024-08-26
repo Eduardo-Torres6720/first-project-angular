@@ -4,7 +4,10 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { TaskComponent } from '../../components/task/task.component';
+import {
+  DialogUpdateTask,
+  TaskComponent,
+} from '../../components/task/task.component';
 import { TaskService } from '../../services/task.service';
 import { task } from '../../types/task.type';
 import { MatButtonModule } from '@angular/material/button';
@@ -119,6 +122,15 @@ export class HomeComponent {
       error: (e) => {
         this.toast.error('Falha ao retornar as tarefas deletadas');
       },
+    });
+  }
+
+  updateTask(newTask: task) {
+    this.tasks.find((value) => {
+      if (value.id == newTask.id) {
+        value.title = newTask.title;
+        value.description = newTask.description;
+      }
     });
   }
 }

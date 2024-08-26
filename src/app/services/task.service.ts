@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioService } from './usuario.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { task } from '../types/task.type';
 
 @Injectable({
@@ -42,5 +42,12 @@ export class TaskService {
 
   retrieveTasks(idTasks: { id: string }[]) {
     return this.httpClient.put(this.url + 'activeTask', idTasks);
+  }
+
+  updateTask(title: string, description: string, id: string): Observable<task> {
+    return this.httpClient.put<task>(this.url + 'updateTask/' + id, {
+      title,
+      description,
+    });
   }
 }
