@@ -221,19 +221,25 @@ export class DialogBin {
   tasksRescue() {
     const idTasks: { id: string }[] = [];
     this.rescueTasks.forEach((task) => {
-      idTasks.push({ id: task.id });
+      if (this.data.tasks.includes(task)) {
+        idTasks.push({ id: task.id });
+      }
     });
-    this.taskService.retrieveTasks(idTasks).subscribe({
-      next: () => {
-        this.dialogRef.close(this.rescueTasks);
-        this.toast.success('Tarefas recuperadas');
-      },
-      error: () => {
-        this.toast.error(
-          'Erro ao recuperar tarefas, tente novamente mais tarde'
-        );
-      },
-    });
+    if (idTasks.length <= 0) {
+      this.toast.error('Nenhuma tarefa foi restaurada');
+    } else {
+      this.taskService.retrieveTasks(idTasks).subscribe({
+        next: () => {
+          this.dialogRef.close(this.rescueTasks);
+          this.toast.success('Tarefas recuperadas');
+        },
+        error: () => {
+          this.toast.error(
+            'Erro ao recuperar tarefas, tente novamente mais tarde'
+          );
+        },
+      });
+    }
   }
 
   deleteTaskForever(task: task) {
