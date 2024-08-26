@@ -85,6 +85,27 @@ export class HomeComponent {
     });
   }
 
+  completeTask($event: { id: string; completed: boolean }) {
+    this.tasksService.completeTask($event.id).subscribe({
+      next: () => {
+        this.tasks.find((task) => {
+          if (task.id == $event.id) {
+            task.completed = !task.completed;
+          }
+        });
+      },
+    });
+  }
+
+  updateTask(newTask: task) {
+    this.tasks.find((value) => {
+      if (value.id == newTask.id) {
+        value.title = newTask.title;
+        value.description = newTask.description;
+      }
+    });
+  }
+
   openDialogAddTask(
     enterAnimationDuration: string,
     exitAnimationDuration: string
@@ -122,15 +143,6 @@ export class HomeComponent {
       error: (e) => {
         this.toast.error('Falha ao retornar as tarefas deletadas');
       },
-    });
-  }
-
-  updateTask(newTask: task) {
-    this.tasks.find((value) => {
-      if (value.id == newTask.id) {
-        value.title = newTask.title;
-        value.description = newTask.description;
-      }
     });
   }
 }
@@ -223,6 +235,7 @@ export class DialogBin {
     this.rescueTasks.forEach((task) => {
       if (this.data.tasks.includes(task)) {
         idTasks.push({ id: task.id });
+        task.active = true;
       }
     });
     if (idTasks.length <= 0) {

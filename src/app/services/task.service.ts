@@ -50,4 +50,8 @@ export class TaskService {
       description,
     });
   }
+
+  completeTask(taskId: string) {
+    return this.httpClient.put(this.url + 'completeTask', taskId);
+  }
 }

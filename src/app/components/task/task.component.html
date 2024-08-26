@@ -20,6 +20,11 @@
       <button mat-button (click)="openDialogUpdateTask('0ms', '0ms')">
         Editar
       </button>
+      <button mat-button (click)="completeTask()">
+        <mat-icon>{{
+          completed ? "check_circle" : "check_circle_outline"
+        }}</mat-icon>
+      </button>
       }
     </mat-card-actions>
   </mat-card>

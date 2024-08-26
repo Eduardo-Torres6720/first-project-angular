@@ -72,11 +72,16 @@ export class TaskComponent {
   @Input() id: string = '';
   @Output('deleteTask') onDeleteTask = new EventEmitter();
   @Output('openDialogUpdateTask') onOpenDialogUpdateTask = new EventEmitter();
+  @Output('completeTask') onCompleteTask = new EventEmitter();
 
   readonly dialog = inject(MatDialog);
 
   deleteTask() {
     this.onDeleteTask.emit();
+  }
+
+  completeTask() {
+    this.onCompleteTask.emit({ id: this.id, completed: this.completed });
   }
 
   openDialog(
