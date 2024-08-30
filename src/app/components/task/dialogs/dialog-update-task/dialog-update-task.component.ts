@@ -22,6 +22,7 @@ import {
 } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { TaskService } from '../../../../services/task.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'dialog-update-task',
@@ -49,7 +50,7 @@ export class DialogUpdateTask {
   );
   readonly dialogRef = inject(MatDialogRef<DialogUpdateTask>);
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService, private toast: ToastrService) {}
 
   fb = inject(FormBuilder);
   formUpdateTask = this.fb.group({
@@ -66,6 +67,10 @@ export class DialogUpdateTask {
         .subscribe({
           next: (e) => {
             this.dialogRef.close(e);
+          },
+          error: () => {
+            this.toast.error('Erro ao atualizar a tarefa');
+            this.dialogRef.close();
           },
         });
     }

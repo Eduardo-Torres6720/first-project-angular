@@ -65,8 +65,8 @@ export class DialogAddTask {
           this.dialogRef.close(e);
           this.toast.success('tarefa adicionada com sucesso');
         },
-        error: (e) => {
-          console.log(e.message);
+        error: () => {
+          this.toast.error('Falha ao adicionar a tarefa');
         },
       });
     }

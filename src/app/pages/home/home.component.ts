@@ -60,12 +60,14 @@ export class HomeComponent {
   }
 
   updateTask(newTask: task) {
-    this.tasks.find((value) => {
-      if (value.id == newTask.id) {
-        value.title = newTask.title;
-        value.description = newTask.description;
-      }
-    });
+    if (newTask) {
+      this.tasks.find((value) => {
+        if (value.id == newTask.id) {
+          value.title = newTask.title;
+          value.description = newTask.description;
+        }
+      });
+    }
   }
 
   openDialogAddTask(

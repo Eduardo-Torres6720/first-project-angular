@@ -3,7 +3,7 @@
   <form [formGroup]="formAddTask">
     <mat-form-field>
       <mat-label>Título</mat-label>
-      <input type="text" matInput formControlName="titleTask" maxlength="55" />
+      <input type="text" matInput formControlName="titleTask" maxlength="50" />
       <mat-hint align="start">Máximo de caracteres</mat-hint>
       <mat-hint align="end"
         >{{formAddTask.get('titleTask')!.value!.length}} / 50</mat-hint
