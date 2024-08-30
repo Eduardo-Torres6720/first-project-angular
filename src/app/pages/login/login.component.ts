@@ -62,7 +62,7 @@ export class LoginComponent {
         this.router.navigate(['']);
       },
       error: (e) => {
-        if (e.status == 400) {
+        if (e.status == 403) {
           this.toastr.error('Login ou senha incorreto(s)');
         } else {
           this.toastr.error('Erro inesperado, tente novamente mais tarde');

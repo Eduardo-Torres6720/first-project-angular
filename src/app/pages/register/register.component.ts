@@ -86,7 +86,7 @@ export class RegisterComponent {
           this.router.navigate(['']);
         },
         error: (e) => {
-          if (e.status == 400) {
+          if (e.status == 403) {
             this.toastr.error('Email já cadastrado, tente outro');
           } else {
             this.toastr.error('Erro inesperado, tente novamente mais tarde');

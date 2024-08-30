@@ -27,7 +27,7 @@ export class HomeComponent {
         this.tasks = e;
       },
       error: (e) => {
-        console.log(e.message);
+        toast.error('Erro ao retornar as tarefas');
       },
     });
   }
